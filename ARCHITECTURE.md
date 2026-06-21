@@ -4,14 +4,14 @@
 
 ```mermaid
 flowchart TD
-    User([User]) --> Frontend
-    Frontend[Next.js App Router] --> Auth[Supabase Auth]
-    Frontend --> CalculatorAPI[/api/calculator/route.js]
-    CalculatorAPI -- "Prompt + Inputs" --> GroqLLM{Groq API (Llama 3.3 70B)}
+    User(["User"]) --> Frontend
+    Frontend["Next.js App Router"] --> Auth["Supabase Auth"]
+    Frontend --> CalculatorAPI["/api/calculator/route.js"]
+    CalculatorAPI -- "Prompt + Inputs" --> GroqLLM{"Groq API (Llama 3.3 70B)"}
     GroqLLM -- "JSON Estimation" --> CalculatorAPI
-    CalculatorAPI -- "Activity Data" --> DB[(Postgres Database)]
-    DB --> RPC[recalculate_profile_stats RPC]
-    RPC --> ProfilesTable[(profiles / profile_private)]
+    CalculatorAPI -- "Activity Data" --> DB[("Postgres Database")]
+    DB --> RPC["recalculate_profile_stats RPC"]
+    RPC --> ProfilesTable[("profiles / profile_private")]
     Frontend -- "fetchLeaderboard / fetchPublicProfile" --> DB
 ```
 
@@ -24,11 +24,11 @@ flowchart LR
     Frontend --> |Authenticated Request| Supabase
     
     subgraph Supabase Postgres
-        Auth[auth.users] -. "uid()" .-> RLS{Row Level Security}
+        Auth["auth.users"] -. "uid()" .-> RLS{"Row Level Security"}
         
-        RLS -- "SELECT / UPDATE" --> Activities[(activities)]
-        RLS -- "Public SELECT / Private UPDATE" --> Profiles[(profiles)]
-        RLS -- "Owner-only SELECT / UPDATE" --> ProfilePrivate[(profile_private)]
+        RLS -- "SELECT / UPDATE" --> Activities[("activities")]
+        RLS -- "Public SELECT / Private UPDATE" --> Profiles[("profiles")]
+        RLS -- "Owner-only SELECT / UPDATE" --> ProfilePrivate[("profile_private")]
     end
     
     Profiles -. "Public data: rank, co2_saved, streak" .-> Leaderboard
